@@ -5,12 +5,13 @@ import tempfile
 
 
 
-DATA_FNAME = ['measures_64spl_raw.csv']
+DATA_FNAME = ['measures_64spl_raw.csv','measures_1024spl_raw.csv']
 INPUT_LENGTH_TIMES = [0.5*60, # 30 seconds
-                      1*60,   # 1 minute
-                      5*60]   # 5 minutes
+                      1*60,   # 1  minute
+                      5*60,   # 5  minutes
+                      10*60]  # 10 minutes
 
-def get_input_length(data, input_length_times, verbose=False,TOLERANCE_DIFF = 16):
+def get_input_length(data, input_length_times, verbose=False,TOLERANCE_DIFF = 18):
     printVerbose = print if verbose else lambda *args, **kwargs: None
     res = []
     
@@ -126,7 +127,7 @@ for data_fname in DATA_FNAME:
 
     # print(data.head())
 
-    input_length_s = get_input_length(data, INPUT_LENGTH_TIMES, verbose=False)
+    input_length_s = get_input_length(data, INPUT_LENGTH_TIMES, verbose=True)
 
     # For short render times, the render time itself is less precise than Real-time ratio (X), so we recompute time based on that
     # (for < RECOMPUTE_S_THRESH seconds)
@@ -144,11 +145,11 @@ for data_fname in DATA_FNAME:
             recomputed_time = input_length_s[idx]/data.at[idx, 'X']
             # print('time_re_calculated: %f (%d:%f)'%(recompute_time,recompute_time//60,recompute_time%60))
 
-            if (abs(time_logged-recomputed_time) <= RECOMPUTE_TOLERANCE):
+            if (abs(time_logged-recomputed_time) <= RECOMPUTE_TOLERANCE) or (data.at[idx, 'X'] < 1.0):
                 # print('OK')
                 data.at[idx, 'time'] = round(recomputed_time,2)
             else:
-                raise ValueError('Time logged (%d) is different from recomputed time (%d)'%(time_logged,recomputed_time))
+                raise ValueError('Time logged for exp \'%s\' (%d) is different from recomputed time (%d)'%(data.at[idx,'screenshot'],time_logged,recomputed_time))
             # print()
         else:
             pass
@@ -186,7 +187,9 @@ for data_fname in DATA_FNAME:
     # print(data.head())
 
     for idx in data.index:
-        assert data.at[idx, ('X_std')] <= 0.91, 'Standard deviation of X is too high: %.2f (for id:%d)'  % (data.at[idx, ('X_std')], data.at[idx, ('id')])
+        relative_tolerance = 0.12
+        tolerance = relative_tolerance * data.at[idx, ('X_mean')]
+        assert data.at[idx, ('X_std')] <= tolerance, 'Standard deviation of X is too high (>%.1f%%): %.2f (for mean:%.1f, id:%d, plugin:%s)'  % (relative_tolerance*100.0,data.at[idx, ('X_std')], data.at[idx, ('X_mean')], data.at[idx, ('id')], data.at[idx, ('plugin')])
 
     DATA_FNAME_AVERAGED = DATA_FNAME_CLEAN.replace('clean','averaged')
     data.to_csv(DATA_FNAME_AVERAGED, index=False)

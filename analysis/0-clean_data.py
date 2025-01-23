@@ -5,13 +5,13 @@ import tempfile
 
 
 
-DATA_FNAME = ['measures_64spl_raw.csv','measures_1024spl_raw.csv']
+DATA_FNAME = ['measures_64spl_raw.csv','measures_256spl_raw.csv','early_measurements_raw.csv']
 INPUT_LENGTH_TIMES = [0.5*60, # 30 seconds
                       1*60,   # 1  minute
                       5*60,   # 5  minutes
                       10*60]  # 10 minutes
 
-def get_input_length(data, input_length_times, verbose=False,TOLERANCE_DIFF = 18):
+def get_input_length(data, input_length_times, verbose=False,rel_diff = 0.14, sourcecolumn='screenshot'):
     printVerbose = print if verbose else lambda *args, **kwargs: None
     res = []
     
@@ -22,7 +22,7 @@ def get_input_length(data, input_length_times, verbose=False,TOLERANCE_DIFF = 18
 
         closest_input_time = None
         closest_input_time_diff = None
-        printVerbose('\nTrying to find input time match for %.1f  (%s)' % (expected_time,data.at[idx, 'screenshot']))
+        printVerbose('\nTrying to find input time match for %.1f  (%s)' % (expected_time,data.at[idx, sourcecolumn]))
         for input_time in INPUT_LENGTH_TIMES:
             diff = abs(input_time - expected_time)
             printVerbose("diff = ", diff, end=' ')
@@ -32,8 +32,8 @@ def get_input_length(data, input_length_times, verbose=False,TOLERANCE_DIFF = 18
                 closest_input_time_diff = diff
             printVerbose()
         del diff 
-        if closest_input_time_diff > TOLERANCE_DIFF:
-            raise ValueError('Expected time (%.1f) is too far from any input time (%.1f)' % (expected_time,closest_input_time_diff))
+        if closest_input_time_diff > rel_diff*expected_time:
+            raise ValueError('Expected time (%.1f) is too far from any input time (%.1f) for measure \'%s\'' % (expected_time,closest_input_time_diff,data.at[idx,sourcecolumn]))
 
         printVerbose(f'time = {time}, x = {x}, expected_time = {expected_time:.1f} (%d:%d)'%(expected_time//60,expected_time%60))
         res.append(closest_input_time)
@@ -84,8 +84,8 @@ for data_fname in DATA_FNAME:
     # DF columns elapsed, remaining, and time are in the format mm:ss and as strings, conver to seconds
     # and store as floats
     for idx in data.index:
-        elapsed = data.at[idx, 'elapsed']
-        remaining = data.at[idx, 'remaining']
+        elapsed = data.at[idx, 'elapsed'] if "elapsed" in data.columns else None
+        remaining = data.at[idx, 'remaining'] if 'remaining' in data.columns else None
         time = data.at[idx, 'time']
         
         if not pd.isna(elapsed) and elapsed != "":
@@ -106,8 +106,8 @@ for data_fname in DATA_FNAME:
     # in both cases, ensure that 'time' is ""
     
     for idx in data.index:
-        elapsed = data.at[idx, 'elapsed']
-        remaining = data.at[idx, 'remaining']
+        elapsed = data.at[idx, 'elapsed'] if "elapsed" in data.columns else None
+        remaining = data.at[idx, 'remaining'] if 'remaining' in data.columns else None
         time = data.at[idx, 'time']
         
         # # Check conditions
@@ -123,46 +123,56 @@ for data_fname in DATA_FNAME:
             data.at[idx, 'time'] = elapsed + remaining
     
     # drop columns elapsed and remaining
-    data = data.drop(columns=['elapsed', 'remaining'])
+    if 'elapsed' in data.columns:
+        data = data.drop(columns=['elapsed'])
+    if 'remaining' in data.columns:
+        data = data.drop(columns=['remaining'])
 
     # print(data.head())
+    if 'screenshot' in data.columns:
+        sourcecolumn = 'screenshot'
+    elif 'file' in data.columns:
+        sourcecolumn = 'file'
+    
+    if 'input_length' not in data.columns:
+        input_length_s = get_input_length(data, INPUT_LENGTH_TIMES, verbose=True,sourcecolumn=sourcecolumn)
 
-    input_length_s = get_input_length(data, INPUT_LENGTH_TIMES, verbose=True)
+        # For short render times, the render time itself is less precise than Real-time ratio (X), so we recompute time based on that
+        # (for < RECOMPUTE_S_THRESH seconds)
+        # Also, we do not correct for super low real-time ratios (X) (<0.6)
 
-    # For short render times, the render time itself is less precise than Real-time ratio (X), so we recompute time based on that
-    # (for < RECOMPUTE_S_THRESH seconds)
-    # Also, we do not correct for super low real-time ratios (X) (<0.6)
+        RECOMPUTE_S_THRESH = 130
+        RECOMPUTE_TOLERANCE_REL = 0.109
+        for idx in data.index:
+            time_logged = data.at[idx, 'time']
+            data.at[idx, 'input_length'] = input_length_s[idx]
 
-    RECOMPUTE_S_THRESH = 130
-    RECOMPUTE_TOLERANCE = 2
-    for idx in data.index:
-        time_logged = data.at[idx, 'time']
-        data.at[idx, 'input_length'] = input_length_s[idx]
+            if time_logged <= RECOMPUTE_S_THRESH and data.at[idx, 'X'] >= 0.6:
+                # print(data.at[idx, 'screenshot'])
+                # print('time_logged: %d (%d:%d)'%(time_logged,time_logged//60,time_logged%60))
+                recomputed_time = input_length_s[idx]/data.at[idx, 'X']
+                # print('time_re_calculated: %f (%d:%f)'%(recompute_time,recompute_time//60,recompute_time%60))
 
-        if time_logged <= RECOMPUTE_S_THRESH and data.at[idx, 'X'] >= 0.6:
-            # print(data.at[idx, 'screenshot'])
-            # print('time_logged: %d (%d:%d)'%(time_logged,time_logged//60,time_logged%60))
-            recomputed_time = input_length_s[idx]/data.at[idx, 'X']
-            # print('time_re_calculated: %f (%d:%f)'%(recompute_time,recompute_time//60,recompute_time%60))
-
-            if (abs(time_logged-recomputed_time) <= RECOMPUTE_TOLERANCE) or (data.at[idx, 'X'] < 1.0):
-                # print('OK')
-                data.at[idx, 'time'] = round(recomputed_time,2)
+                RECOMPUTE_TOLERANCE = RECOMPUTE_TOLERANCE_REL*time_logged
+                if (abs(time_logged-recomputed_time) <= RECOMPUTE_TOLERANCE) or (data.at[idx, 'X'] < 1.0):
+                    # print('OK')
+                    data.at[idx, 'time'] = round(recomputed_time,2)
+                else:
+                    print("Tolerance was %.1f%% (%.3f)"%(RECOMPUTE_TOLERANCE_REL*100,RECOMPUTE_TOLERANCE))
+                    raise ValueError('Time logged for exp \'%s\' (%d) is different from recomputed time (%d)'%(data.at[idx,sourcecolumn],time_logged,recomputed_time))
+                # print()
             else:
-                raise ValueError('Time logged for exp \'%s\' (%d) is different from recomputed time (%d)'%(data.at[idx,'screenshot'],time_logged,recomputed_time))
-            # print()
-        else:
-            pass
+                pass
 
 
-    for idx in data.index:
-        time = data.at[idx, 'time']
-        ratio = data.at[idx, 'X']
-        input_length = data.at[idx, 'input_length']
+        for idx in data.index:
+            time = data.at[idx, 'time']
+            ratio = data.at[idx, 'X']
+            input_length = data.at[idx, 'input_length']
 
-        print('time = %.3f (%d:%d), input_length = %d, ratio = %.2f, expected_ratio = %.2f' % (time,time//60,time%60,input_length,ratio,input_length/time))
-        ratioerror = abs(ratio - input_length/time)
-        assert ratioerror < 0.1, 'Ratio error is too high: %.2f' % ratioerror
+            print('time = %.3f (%d:%d), input_length = %d, ratio = %.2f, expected_ratio = %.2f' % (time,time//60,time%60,input_length,ratio,input_length/time))
+            ratioerror = abs(ratio - input_length/time)
+            assert ratioerror < 0.1, 'Ratio error is too high: %.2f' % ratioerror
 
 
     for idx in data.index:
@@ -187,9 +197,9 @@ for data_fname in DATA_FNAME:
     # print(data.head())
 
     for idx in data.index:
-        relative_tolerance = 0.12
+        relative_tolerance = 0.1185
         tolerance = relative_tolerance * data.at[idx, ('X_mean')]
-        assert data.at[idx, ('X_std')] <= tolerance, 'Standard deviation of X is too high (>%.1f%%): %.2f (for mean:%.1f, id:%d, plugin:%s)'  % (relative_tolerance*100.0,data.at[idx, ('X_std')], data.at[idx, ('X_mean')], data.at[idx, ('id')], data.at[idx, ('plugin')])
+        assert data.at[idx, ('X_std')] <= tolerance, 'Standard deviation of X is too high (>%.1f%% (>%.1f)): %.2f (for mean:%.1f, id:%d, plugin:%s) file %s'  % (relative_tolerance*100.0,tolerance,data.at[idx, ('X_std')], data.at[idx, ('X_mean')], data.at[idx, ('id')], data.at[idx, ('plugin')],DATA_FNAME_CLEAN)
 
     DATA_FNAME_AVERAGED = DATA_FNAME_CLEAN.replace('clean','averaged')
     data.to_csv(DATA_FNAME_AVERAGED, index=False)

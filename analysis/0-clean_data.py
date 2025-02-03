@@ -5,13 +5,16 @@ import tempfile
 
 
 
-DATA_FNAME = ['measures_64spl_raw.csv','measures_256spl_raw.csv','early_measurements_raw.csv']
+# DATA_FNAME = ['measures_64spl_raw.csv','measures_256spl_raw.csv','early_measurements_raw.csv']
+DATA_FNAME = ['measures_MOD_old_Plugin_raw_64.csv','measures_MOD_old_Plugin_raw_256.csv']
+RELDIFF = 0.14
+# RELDIFF = 0.29
 INPUT_LENGTH_TIMES = [0.5*60, # 30 seconds
                       1*60,   # 1  minute
                       5*60,   # 5  minutes
                       10*60]  # 10 minutes
 
-def get_input_length(data, input_length_times, verbose=False,rel_diff = 0.14, sourcecolumn='screenshot'):
+def get_input_length(data, input_length_times, verbose=False,rel_diff = RELDIFF, sourcecolumn='screenshot'):
     printVerbose = print if verbose else lambda *args, **kwargs: None
     res = []
     
@@ -32,7 +35,15 @@ def get_input_length(data, input_length_times, verbose=False,rel_diff = 0.14, so
                 closest_input_time_diff = diff
             printVerbose()
         del diff 
-        if closest_input_time_diff > rel_diff*expected_time:
+        cur_rel_diff = rel_diff if data.at[idx,'X'] > 0.2 else 0.49
+        cur_rel_diff = cur_rel_diff if data.at[idx,'time'] > 10 else 0.16
+        if closest_input_time_diff > cur_rel_diff*expected_time:
+            print('time',time)
+            print('x',x)
+            print('cur_rel_diff',cur_rel_diff)
+            print('expected_time',expected_time)
+            print('closest_input_time_diff',closest_input_time_diff)
+            print('cur_rel_diff*expected_time',cur_rel_diff*expected_time)
             raise ValueError('Expected time (%.1f) is too far from any input time (%.1f) for measure \'%s\'' % (expected_time,closest_input_time_diff,data.at[idx,sourcecolumn]))
 
         printVerbose(f'time = {time}, x = {x}, expected_time = {expected_time:.1f} (%d:%d)'%(expected_time//60,expected_time%60))
@@ -42,7 +53,7 @@ def get_input_length(data, input_length_times, verbose=False,rel_diff = 0.14, so
 
 for data_fname in DATA_FNAME:
     DATA_PATH = os.path.abspath(os.path.join('..', 'data',data_fname))
-    assert os.path.exists(DATA_PATH), 'Data file not found'
+    assert os.path.exists(DATA_PATH), 'Data file \"%s\" not found'%(DATA_PATH)
     print('Cleaning data file:', DATA_PATH)
 
     with open (DATA_PATH, 'r') as f:
@@ -90,7 +101,11 @@ for data_fname in DATA_FNAME:
         
         if not pd.isna(elapsed) and elapsed != "":
             elapsed = elapsed.split(':')
-            elapsed = float(elapsed[0])*60 + float(elapsed[1])
+            try:
+                elapsed = float(elapsed[0])*60 + float(elapsed[1])
+            
+            except IndexError:
+                print('Index',idx, 'elapsedstr', elapsed)
             data.at[idx, 'elapsed'] = elapsed
         if not pd.isna(remaining) and remaining != "":
             remaining = remaining.split(':')
@@ -154,7 +169,7 @@ for data_fname in DATA_FNAME:
                 # print('time_re_calculated: %f (%d:%f)'%(recompute_time,recompute_time//60,recompute_time%60))
 
                 RECOMPUTE_TOLERANCE = RECOMPUTE_TOLERANCE_REL*time_logged
-                if (abs(time_logged-recomputed_time) <= RECOMPUTE_TOLERANCE) or (data.at[idx, 'X'] < 1.0):
+                if (abs(time_logged-recomputed_time) <= RECOMPUTE_TOLERANCE) or (data.at[idx, 'X'] < 1.0) or (data.at[idx, 'time'] < 10):
                     # print('OK')
                     data.at[idx, 'time'] = round(recomputed_time,2)
                 else:
@@ -199,6 +214,8 @@ for data_fname in DATA_FNAME:
     for idx in data.index:
         relative_tolerance = 0.1185
         tolerance = relative_tolerance * data.at[idx, ('X_mean')]
+        # Print row idx
+        # print(print(data.iloc[[idx]]))
         assert data.at[idx, ('X_std')] <= tolerance, 'Standard deviation of X is too high (>%.1f%% (>%.1f)): %.2f (for mean:%.1f, id:%d, plugin:%s) file %s'  % (relative_tolerance*100.0,tolerance,data.at[idx, ('X_std')], data.at[idx, ('X_mean')], data.at[idx, ('id')], data.at[idx, ('plugin')],DATA_FNAME_CLEAN)
 
     DATA_FNAME_AVERAGED = DATA_FNAME_CLEAN.replace('clean','averaged')

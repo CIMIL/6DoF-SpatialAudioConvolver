@@ -1,6 +1,14 @@
 
+6DoF-SpatialAudioConvolver
+---
 
-Performance comparison between:
+This repository points to the source code for the __MCFX-6DoFConv__ plugin and contains the code for the performance comparison between the original SPARTA-6DoFConv plugin and the proposed MCFX-6DoFConv plugin.
+
+## Plugin Source Code
+The source code for the MCFX-6DoFConv plugin is contained in the submodule in `plugin/` (or [here](https://github.com/domenicostefani/SPARTA_Multi6DoF_project/tree/develop)).
+
+## Performance Comparison
+Here we compare the performance of the following:
 1. __SPARTA-6DoFConv__ (__original__ plugin, which is zero-latency only for buffer sizes >= 512)
 2. __MCFX-6DoFConv__ (__our__ plugin with efficient convolution, always zero-latency)
 3. __modified-SPARTA-6DoFConv__ (__rtmod__: plugin with lower buffer size cap to become zero-latency like ours, for fair comparison)
@@ -63,9 +71,9 @@ The code for producing the plots is in
 `analysis/plot.ipynb`  
 
 
-`data/` contains screenshot of render times but you won't need them.  
-`analysis/0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
-`data/position_change_delay_measurements` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
+`data\` contains screenshot of render times but you won't need them.  
+`analysis\0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
+`data/PosChangeDelay_Bidule` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
 
 
 _Domenico Stefani, Jan 2025_

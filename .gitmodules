@@ -1,0 +1,4 @@
+[submodule "plugin-source"]
+	path = plugin-source
+	url = https://github.com/domenicostefani/SPARTA_Multi6DoF_project
+	branch = develop

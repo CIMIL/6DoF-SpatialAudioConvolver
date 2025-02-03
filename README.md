@@ -63,9 +63,9 @@ The code for producing the plots is in
 `analysis/plot.ipynb`  
 
 
-`data\` contains screenshot of render times but you won't need them.  
-`analysis\0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
-`data/PosChangeDelay_Bidule` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
+`data/` contains screenshot of render times but you won't need them.  
+`analysis/0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
+`data/position_change_delay_measurements` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
 
 
 _Domenico Stefani, Jan 2025_

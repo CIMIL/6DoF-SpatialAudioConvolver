@@ -5,7 +5,7 @@
 This repository points to the source code for the __MCFX-6DoFConv__ plugin and contains the code for the performance comparison between the original SPARTA-6DoFConv plugin and the proposed MCFX-6DoFConv plugin.
 
 ## Plugin Source Code
-The source code for the MCFX-6DoFConv plugin is contained in the submodule in `plugin/` (or [here](https://github.com/domenicostefani/SPARTA_Multi6DoF_project/tree/develop)).
+The source code for the MCFX-6DoFConv plugin is contained in the submodule in `plugin-source/` (or [here](https://github.com/domenicostefani/SPARTA_Multi6DoF_project/)).
 
 ## Performance Comparison
 Here we compare the performance of the following:

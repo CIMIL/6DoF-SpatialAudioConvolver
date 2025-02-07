@@ -34,13 +34,13 @@ It is equivalent to the inverse of the ratio between the render times of the two
 A speedup of 1.0 indicates that the two plugins have the same computational efficiency, regardless of whether the configuration is rendered in real-time or not.
 
 ### Inverse Real-time Factor of __original__ SPARTA-6DoFConv plugin
-`analysis\outplots\irtf_old.png`   
-![](analysis\outplots\irtf_old.png)
+`analysis/outplots/irtf_old.png`   
+![](analysis/outplots/irtf_old.png)
 Note that, because the inner convolver of the original plugin has a minimum buffer size of 512 samples, it can process faster than real-time in average, however it introduces latency in the audio processing with respect to the host buffer size (for sizes of 512 and smaller).
 
 ### Inverse Real-time Factor of the proposed MCFX-6DoFConv plugin
-`analysis\outplots\irtf_new.png`   
-![](analysis\outplots\irtf_new.png)
+`analysis/outplots/irtf_new.png`   
+![](analysis/outplots/irtf_new.png)
 Note: zero-latency for all buffer sizes.
 
 ### Speedup ratio of MCFX-6DoFConv plugin with respect to SPARTA-6DoFConv plugin
@@ -56,8 +56,8 @@ As a consequence, zero-latency behavior is achieved, at the cost of increased nu
 The results are as follows:
 
 ### Inverse Real-time Factor of __modified__ SPARTA-6DoFConv plugin
-`analysis\outplots\irtf_rtmod_SPARTA6dof.pdf.png`   
-![](analysis\outplots\irtf_rtmod_SPARTA6dof.pdf.png)
+`analysis/outplots/irtf_rtmod_SPARTA6dof.png`   
+![](analysis/outplots/irtf_rtmod_SPARTA6dof.png)
 
 ### Speedup ratio of MCFX-6DoFConv plugin with respect to __modified__ SPARTA-6DoFConv plugin
 `analysis/outplots/speedup_new_vs_modded.png`   
@@ -72,9 +72,9 @@ The code for producing the plots is in
 `analysis/plot.ipynb`  
 
 
-`data\` contains screenshot of render times but you won't need them.  
-`analysis\0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
-`data\position_change_delay_measurements` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
+`data/` contains screenshot of render times but you won't need them.  
+`analysis/0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
+`data/position_change_delay_measurements` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
 
 
 _Domenico Stefani, Jan 2025_

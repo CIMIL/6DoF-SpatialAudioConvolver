@@ -1,0 +1,30 @@
+\begin{table}[htb]
+    % \tabcolsep8.1pt
+    \caption{Audio and IR-change latencies measured for the original \oldPlugin{} plugin and the proposed \newPlugin{}. All measures are in samples unless stated otherwise}
+    \label{tab:switch_latencies}
+    \adjustbox{width=\linewidth}{%
+        % \begin{tabular}{@{}lllllc@{}}
+        \begin{tabularx}{1.2\linewidth}{@{}lRR|R|RR|@{}}
+            \toprule
+            \multirow{2}*{\textbf{Plugin}} & \multirow{2}*{\textbf{hBS*}} & \multirow{2}*{\textbf{iBS**}} & \multirow{2}*{\textbf{AL***}} & \multicolumn{2}{l|}{\textbf{IR change Latency}} \\
+             &  & &  & [samples] & [ms] \\
+            \midrule
+            \multirow{6}*{\small SPARTA 6DoFConv}   & 64   & \textcolor{red}{512} & 512  & 769  & 16.0 \\
+                                                    & 128  & \textcolor{red}{512} & 512  & 833  & 17.3 \\
+                                                    & 256  & \textcolor{red}{512} & 512  & 897  & 18.7 \\
+                                                    & 512  & \textcolor{red}{512} & 512  & 1025 & 21.4 \\
+                                                    & 1024 & 1024                 & 1024 & 2050 & 42.7 \\
+                                                    & 2048 & 2048                 & 2048 & 4097 & 85.4 \\
+            \midrule
+            \multirow{6}*{\small MCFX-6DoF (\textbf{our})}   & 64   & 64   & \textbf{0}& \textbf{0} & \textbf{0.0} \\
+                                                    & 128  & 128  & \textbf{0}& \textbf{0} & \textbf{0.0} \\
+                                                    & 256  & 256  & \textbf{0}& \textbf{0} & \textbf{0.0} \\
+                                                    & 512  & 512  & \textbf{0}& \textbf{0} & \textbf{0.0} \\
+                                                    & 1024 & 1024 & \textbf{0}& \textbf{0} & \textbf{0.0} \\
+                                                    & 2048 & 2048 & \textbf{0}& \textbf{0} & \textbf{0.0} \\
+            \bottomrule
+        \end{tabularx}}
+    \begin{tabnote}
+    * \acl{hbs}, ** \acl{ibs}, *** Audio Latency, 
+    \end{tabnote}
+\end{table}

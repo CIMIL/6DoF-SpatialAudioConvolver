@@ -12,7 +12,7 @@
 		<Bidule id="UID_1734111242" type="com.plogue.GainUnlimited" displayName="Gain Unltd_1" processingMode="process">
 			<Geometry x="-140.663" y="224.674" w="0" h="0"/>
 			<ChannelConfig numSampleIn="2" numSampleOut="2" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
+			<Gui state="normal" hidden="true" generic="true">
 				<Geometry x="997" y="227" w="680" h="272"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -24,8 +24,8 @@
 		<Bidule id="UID_1734111243" type="com.plogue.AudioFileInput_2" displayName="Audio File Player_0" processingMode="process">
 			<Geometry x="-410.007" y="322.731" w="0" h="0"/>
 			<ChannelConfig numSampleIn="0" numSampleOut="2" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
-				<Geometry x="1672" y="130" w="606" h="488"/>
+			<Gui state="normal" hidden="true" generic="true">
+				<Geometry x="1195" y="948" w="606" h="488"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
 			<Parameter id="-7" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">1</Parameter>
@@ -39,7 +39,7 @@
 		<Bidule id="UID_1734111256" type="com.plogue.ParameterModulator" displayName="Parameter Modulator (abs)_0" processingMode="process">
 			<Geometry x="-73.3402" y="75.5091" w="0" h="0"/>
 			<ChannelConfig numSampleIn="1" numSampleOut="0" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
+			<Gui state="normal" hidden="true" generic="true">
 				<Geometry x="227" y="631" w="508" h="288"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -51,15 +51,15 @@
 		<Bidule id="UID_1734201845" type="com.plogue.AudioFileOutput_3" displayName="Audio File Recorder_0" processingMode="process">
 			<Geometry x="-403.662" y="-383.677" w="0" h="0"/>
 			<ChannelConfig numSampleIn="3" numSampleOut="0" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
-				<Geometry x="-744" y="432" w="707" h="839"/>
+			<Gui state="normal" hidden="true" generic="true">
+				<Geometry x="2198" y="1100" w="707" h="839"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
 			<Parameter id="-7" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
 			<Parameter id="-5" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="-2" userMin="0" userMax="2" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="0" userMin="0" userMax="2" lockedForRandom="false" mutationFactor="0.1">2.0</Parameter>
-			<Parameter id="3" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">1</Parameter>
+			<Parameter id="3" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
 			<Parameter id="7" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
 			<Parameter id="8" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="9" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
@@ -107,7 +107,7 @@
 		<Bidule id="UID_1734201850" type="com.plogue.Constant" displayName="-0.500000" processingMode="process">
 			<Geometry x="-364.8" y="127.5" w="0" h="0"/>
 			<ChannelConfig numSampleIn="0" numSampleOut="1" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
+			<Gui state="normal" hidden="true" generic="true">
 				<Geometry x="1129" y="934" w="680" h="320"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -161,7 +161,7 @@
 			<Geometry x="-164.316" y="44.9266" w="0" h="0"/>
 			<ChannelConfig numSampleIn="64" numSampleOut="65" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
 			<Gui state="normal" hidden="false" generic="false">
-				<Geometry x="1473" y="447" w="1085" h="725"/>
+				<Geometry x="2207" y="425" w="1515" h="975"/>
 			</Gui>
 			<Parameter id="-10000" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">1</Parameter>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -182,10 +182,10 @@
 			<Parameter id="11" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">3.0</Parameter>
 			<Parameter id="12" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="13" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
-			<CustomData name="VSTChunk">eJxNj8FrgzAchd1tf0aW03awi2tZulFbxGoRuiomyjYECfqzZrhENJTuv58eBru8w/fg8b3cf7q7vbGsze763aELDKPUysXOgmAEqtK1VGcXZzy013i3RRue+/Ep97J9FCfH7BCdWMB5dDowdBSjYboRoewgEaZ18f61qOECne7tRgxSCbsf9Ffx5vE08gN23w6msYWqbRaH3kMxZ1ENIAzwgPFx2ip6PUozGZVVK9QZyho68WNgNIu5xiiFCuRk/e5im87Of+BjAsv/4HM+5VC6fl4RuqKEkqWDUcz8MolT7uIXQgh+3Fq/LwVU2w==</CustomData>
+			<CustomData name="VSTChunk">eJxNz91qgzAcBXAfxeVqu0jrtot90LSI1SJ0RkyUbgRG0L81wyWShLK33itMYYPdnIvfxeGcJrm7+g6CYLP7+hzDC1injCbodhWhEHRrOqXPBNU8w49otw03vElo0cT1PqflsT7kBUs5z4sDC4/SeWZ6makRSukHgvbPooMLjGbCvbRKSzxZ8yFeYl7lScquB+t7LHWHGc3iG7GkaC1IDzxl3M1dwg3G+sm4dpD6DKvFUFhBC2qeeiIIPyxD/+B1hvv/8Pb7hLLkvaQVJ+gpiiK03gY/pS1OYw==</CustomData>
 			<CustomData name="VSTChunkCompressed">yes</CustomData>
-			<CustomData name="VSTChunkSize">273</CustomData>
-			<CustomData name="VSTChunkSum">-261</CustomData>
+			<CustomData name="VSTChunkSize">248</CustomData>
+			<CustomData name="VSTChunkSum">-799</CustomData>
 			<CustomData name="curProg">0</CustomData>
 		</Bidule>
 		<Bidule id="UID_1734351805" type="com.plogue.AudioValueDisplay.Terminal" displayName="-1.750000" processingMode="process">

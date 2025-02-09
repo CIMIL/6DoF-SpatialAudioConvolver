@@ -12,7 +12,7 @@
 		<Bidule id="UID_1734111242" type="com.plogue.GainUnlimited" displayName="Gain Unltd_1" processingMode="process">
 			<Geometry x="-140.663" y="224.674" w="0" h="0"/>
 			<ChannelConfig numSampleIn="2" numSampleOut="2" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
+			<Gui state="normal" hidden="true" generic="true">
 				<Geometry x="997" y="227" w="680" h="272"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -39,7 +39,7 @@
 		<Bidule id="UID_1734111256" type="com.plogue.ParameterModulator" displayName="Parameter Modulator (abs)_0" processingMode="process">
 			<Geometry x="-73.3402" y="75.5091" w="0" h="0"/>
 			<ChannelConfig numSampleIn="1" numSampleOut="0" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
-			<Gui state="normal" hidden="false" generic="true">
+			<Gui state="normal" hidden="true" generic="true">
 				<Geometry x="227" y="631" w="508" h="288"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -52,14 +52,14 @@
 			<Geometry x="-403.662" y="-383.677" w="0" h="0"/>
 			<ChannelConfig numSampleIn="3" numSampleOut="0" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
 			<Gui state="normal" hidden="false" generic="true">
-				<Geometry x="-744" y="432" w="707" h="839"/>
+				<Geometry x="494" y="530" w="707" h="839"/>
 			</Gui>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
 			<Parameter id="-7" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
 			<Parameter id="-5" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="-2" userMin="0" userMax="2" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="0" userMin="0" userMax="2" lockedForRandom="false" mutationFactor="0.1">2.0</Parameter>
-			<Parameter id="3" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">1</Parameter>
+			<Parameter id="3" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
 			<Parameter id="7" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
 			<Parameter id="8" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="9" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0</Parameter>
@@ -286,7 +286,7 @@
 			<Geometry x="-164.316" y="44.9266" w="0" h="0"/>
 			<ChannelConfig numSampleIn="64" numSampleOut="64" numMidiIn="0" numMidiOut="0" numFreqIn="0" numFreqOut="0" numMagIn="0" numMagOut="0" numDiscIn="0" numDiscOut="0"/>
 			<Gui state="normal" hidden="false" generic="false">
-				<Geometry x="1269" y="536" w="1085" h="725"/>
+				<Geometry x="1269" y="536" w="1515" h="975"/>
 			</Gui>
 			<Parameter id="-10000" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">1</Parameter>
 			<Parameter id="-9" userMin="0" userMax="0" lockedForRandom="false" mutationFactor="0.1">1.0</Parameter>
@@ -307,10 +307,10 @@
 			<Parameter id="11" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">3.0</Parameter>
 			<Parameter id="12" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
 			<Parameter id="13" userMin="0" userMax="1" lockedForRandom="false" mutationFactor="0.1">0.0</Parameter>
-			<CustomData name="VSTChunk">eJxNj1FrgzAYRd0/ybKX7cHOOrq1o7Y4q0WoVUwc3RAk6GfNcEmJqXT79VPGYC/34Vy4nPvq2dc3V4axXF8+W9SD6rgUDp5OLIxAlLLi4ujgjAbmHK9XaEncIPKCg5ttwjjZZdtwT3xKw/2WoB3rNJE1C3gLCdONgzfPeQU9tPJk1kxxwcyTkh955NI09Hxy2yhdm0xUJokD9y4fMy8VMA3UJ7QbtvKT7LgelIqyYeIIRQUt+9LQ6clYY5RCCXzQPjjYfBql/8DbAB7+g/fx1QyjmHhFEqfUwQvLGnpPiv7lXNegCP8GB9uzR4widkmY0r9kPl3Y+H5l/ADuJF7b</CustomData>
+			<CustomData name="VSTChunk">eJxNz1FrgzAUBeDuZ+wty9P2kM66jdnRtDirRahVTBzdEEbQa3W4RGImZb9+yhjs5T58Bw7nvnj21eXFbLbanD9bNIDuGyUpXswtjEAWqmzkieKMB8TBmzVaMTeIvODoZtswTvbZLjwwn/PwsGNoL3rDVCWCpoVEmJri7VNewgCt6kgldCMF6bT6yCOXp6Hns+tam4oIWRIWB+5NPt280CAMcJ/xfuzK+1pp06m+qIU8wXwyjFIooBm3Hikmj9PSP3gd4e4/vE2vPGAUM+89iVNO8dKyxtxTcnj+qirQrPkGim3r3sEoEudEaPNLzmJp49v17AerxlqC</CustomData>
 			<CustomData name="VSTChunkCompressed">yes</CustomData>
-			<CustomData name="VSTChunkSize">300</CustomData>
-			<CustomData name="VSTChunkSum">-263</CustomData>
+			<CustomData name="VSTChunkSize">290</CustomData>
+			<CustomData name="VSTChunkSum">-111</CustomData>
 			<CustomData name="curProg">0</CustomData>
 		</Bidule>
 		<Link producerId="UID_1734111243" producerChannel="0" listenerId="UID_1734111242" listenerChannel="0"/>
@@ -340,7 +340,7 @@
 		<Link producerId="UID_1734111242" producerChannel="0" listenerId="UID_1738142346" listenerChannel="0"/>
 		<Link producerId="UID_1738142346" producerChannel="0" listenerId="UID_1734201845" listenerChannel="2"/>
 	</BiduleGroup>
+	<ParameterLink producerId="UID_1734111243" producerParamId="1" listenerId="UID_1734201845" listenerParamId="2"/>
 	<ParameterLink producerId="UID_1734111256" producerParamId="0" listenerId="UID_1734201847" listenerParamId="0"/>
 	<ParameterLink producerId="UID_1734111256" producerParamId="0" listenerId="UID_1738142346" listenerParamId="1"/>
-	<ParameterLink producerId="UID_1734111243" producerParamId="1" listenerId="UID_1734201845" listenerParamId="2"/>
 </BoardLayout>

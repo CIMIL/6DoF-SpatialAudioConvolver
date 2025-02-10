@@ -5,8 +5,13 @@ import tempfile
 
 
 
-# DATA_FNAME = ['measures_64spl_raw.csv','measures_256spl_raw.csv','early_measurements_raw.csv']
-DATA_FNAME = ['measures_MOD_old_Plugin_raw_64.csv','measures_MOD_old_Plugin_raw_256.csv']
+DATA_FNAME = ['measures_64spl_raw.csv',
+              'measures_256spl_raw.csv',
+              'measures_1024spl_raw.csv',
+            #   'early_measurements_raw.csv',
+              'measures_MOD_old_Plugin_raw_64.csv',
+              'measures_MOD_old_Plugin_raw_256.csv']
+# DATA_FNAME = ['measures_MOD_old_Plugin_raw_64.csv','measures_MOD_old_Plugin_raw_256.csv']
 RELDIFF = 0.14
 # RELDIFF = 0.29
 INPUT_LENGTH_TIMES = [0.5*60, # 30 seconds
@@ -150,7 +155,18 @@ for data_fname in DATA_FNAME:
         sourcecolumn = 'file'
     
     if 'input_length' not in data.columns:
-        input_length_s = get_input_length(data, INPUT_LENGTH_TIMES, verbose=True,sourcecolumn=sourcecolumn)
+
+        assert data['spl'].nunique() == 1
+        print("data.at[0,'spl'] = ",data.at[0,'spl'])
+        if data.at[0,'spl'] == "1024":
+            print(data[(data['plugin']=='new') &\
+                        (data['channels']==36) &\
+                        (data['irlen_s']==10) &\
+                        (data['spl']==1024)])
+            exit()
+
+        input_length_s = get_input_length(data, INPUT_LENGTH_TIMES, verbose=False,sourcecolumn=sourcecolumn)
+
 
         # For short render times, the render time itself is less precise than Real-time ratio (X), so we recompute time based on that
         # (for < RECOMPUTE_S_THRESH seconds)
@@ -185,14 +201,25 @@ for data_fname in DATA_FNAME:
             ratio = data.at[idx, 'X']
             input_length = data.at[idx, 'input_length']
 
-            print('time = %.3f (%d:%d), input_length = %d, ratio = %.2f, expected_ratio = %.2f' % (time,time//60,time%60,input_length,ratio,input_length/time))
+            # print('time = %.3f (%d:%d), input_length = %d, ratio = %.2f, expected_ratio = %.2f' % (time,time//60,time%60,input_length,ratio,input_length/time))
             ratioerror = abs(ratio - input_length/time)
             assert ratioerror < 0.1, 'Ratio error is too high: %.2f' % ratioerror
 
 
+    # We sent the inverse ratio (WHICH IS THE actual REAL-TIME FACTOR) to time/input_length
+    # As 1/X is not as precise for offline renderings due to its precision fixed to 1 decimal place by Reaper
     for idx in data.index:
-        ratio = data.at[idx, 'X']
-        data.at[idx, 'inverse_ratio'] = 1/ratio
+        # ratio = data.at[idx, 'X']
+        # data.at[idx, 'inverse_ratio'] = 1/ratio
+        data.at[idx, 'inverse_ratio'] = data.at[idx, 'time']/data.at[idx, 'input_length']
+        assert data.at[idx, 'inverse_ratio'] > 0, 'Inverse ratio is negative'
+        REL_TOLERANCE = 0.315
+        # ensure that the inverse ratio is within 10% of 1/X
+        # print(f"data.at[idx, 'inverse_ratio'] = {data.at[idx, 'inverse_ratio']:.2f}, 1/data.at[idx, 'X'] = {1/data.at[idx, 'X']:.2f}")
+        # print(f"relative distance = {abs(data.at[idx, 'inverse_ratio'] - 1/data.at[idx, 'X'])/(1/data.at[idx, 'X']):.2f}")
+        assert abs(data.at[idx, 'inverse_ratio'] - 1/data.at[idx, 'X']) < REL_TOLERANCE*1/data.at[idx, 'X'], 'Inverse ratio is too far from 1/X'
+
+
         
     DATA_FNAME_CLEAN = os.path.basename(DATA_PATH.replace('raw','clean'))
     

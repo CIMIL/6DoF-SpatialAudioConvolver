@@ -65,16 +65,12 @@ The results are as follows:
 
 
 ### Repository
-Plots are in `analysis/outplots/`  
-Source data csv files are in `analysis/` along with averages of the repeated measurements.  
-
-The code for producing the plots is in
-`analysis/plot.ipynb`  
-
-
-`data/` contains screenshot of render times but you won't need them.  
-`analysis/0-clean_data.py` contains the code used to clean up raw data csv's, check for potential transcription errors, and average repeated measures.  
-`data/position_change_delay_measurements` contains Plogue Bidule project files for testing the CONTROL latency of the plugins (Namely the delay between the control message that changes listener position and the actual change of IR matrix reflected in the sound).
+The repository is organized as follows:
+- `analysis/plot.ipynb` contains the code to generate the plots from the measured data, and the final plots (in `analysis/outplots/`).
+- `bin/`  contains the Win64 binary of the modified-version of the original SPARTA plugin, where the lower cap on the internal buffer size is removed for the convolver.
+- `data/` contains the measured data and code to measure audio latency and IR-change latency.  
+- `measurement-projects/` contains the REAPER projects used for the measurements, and the code used to create the test SOFA files.
+- `plugin-source` points to the submodule with the source code of the proposed MCFX-6DoFConv plugin.
 
 
 _Domenico Stefani, Jan 2025_

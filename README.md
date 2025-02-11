@@ -1,6 +1,7 @@
 
 6DoF-SpatialAudioConvolver
 ---
+<img src="https://github.com/user-attachments/assets/1d0829f0-9560-49b6-a656-19b2fbb4574e" width="70%">
 
 This repository points to the source code for the __MCFX-6DoFConv__ plugin and contains the code for the performance comparison between the original SPARTA-6DoFConv plugin and the proposed MCFX-6DoFConv plugin.
 
